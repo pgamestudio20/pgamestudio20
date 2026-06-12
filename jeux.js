@@ -18,7 +18,6 @@
 // jouable, laisse "" (vide) entre les guillemets et le bouton
 // ne s'affichera pas.
 // ============================================
-
 const jeux = [
   {
     titre: "Scale Breaker",
@@ -27,11 +26,10 @@ const jeux = [
     lien: "https://adonacj.itch.io/scale-breaker"
   },
 
-   
-   {
-     titre: "The last sentinel",
-     genre: "Survival Horror",
-     description: "Incarnez Karl et survivez aux hordes de zombies 🧟‍♂️💥.",
-     lien:  "https://thelastsentinel.netlify.app" },
-
-],
+  {
+    titre: "The last sentinel",
+    genre: "Survival Horror",
+    description: "Incarnez Karl et survivez aux hordes de zombies 🧟‍♂️💥.",
+    lien: "https://thelastsentinel.netlify.app"
+  },
+];
