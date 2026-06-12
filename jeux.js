@@ -28,7 +28,7 @@ const jeux = [
     genre: "Plateforme / Aventure",
     description: "Un samouraï capable de changer de taille à volonté grâce à un poison qui a rétréci tous les autres habitants. Lui seul a appris à le maîtriser — et il s'en sert pour affronter les robots de Katachi Corp et la détruire.",
     lien: "https://adonacj.itch.io/scale-breaker",
-    date: "Mai-2026"
+    date: "2026-05"
   },
 
   {
@@ -36,7 +36,7 @@ const jeux = [
     genre: "Survival Horror",
     description: "Incarnez Karl et survivez aux hordes de zombies 🧟‍♂️💥.",
     lien: "https://thelastsentinel.netlify.app",
-    date: "Fevrier-2026"
+    date: "2026-02"
   },
 
   // 👇 Exemple de nouveau jeu (à copier/modifier, puis enlève "//" devant chaque ligne)
