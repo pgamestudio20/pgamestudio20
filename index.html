@@ -1049,7 +1049,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover; 
-    }
+        pointer-events: none;    }
 
     /* La GRANDE boîte de discussion */
     .nox-chat-box {
@@ -1148,10 +1148,10 @@ const connaissancesNox = {
     "salut": "Hum... Salut humain. Je suis NOX, l'IA de P-GAME STUDIO. Pose-moi une question sur nos jeux ou sur le studio, si tu l'oses... 🖤"
     "Projet en cours":Salut actuellement nous travaillons sur the last sentinel quelque mois avant un prototype pourri a ete creer mais d'ici deux mois il sera pro ! ",
 };
-
 function toggleNoxChat() {
     const chatBox = document.getElementById("noxChatBox");
-    if (chatBox.style.display === "none") {
+    // Si la boîte est cachée ou n'a pas encore de style défini, on l'affiche
+    if (chatBox.style.display === "none" || chatBox.style.display === "") {
         chatBox.style.display = "flex";
     } else {
         chatBox.style.display = "none";
