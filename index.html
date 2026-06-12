@@ -410,6 +410,13 @@
 
     .game-link:hover { background: var(--red-light); }
 
+    .game-date {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-top: 0.9rem;
+    }
+
     /* ABOUT SECTION */
     .about-section {
       max-width: 1000px;
@@ -641,6 +648,17 @@
       `<path d="M3 6h18M3 12h18M3 18h18"/>`,
     ];
 
+    const MOIS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const parts = dateStr.split('-'); // format attendu : "AAAA-MM"
+      const annee = parts[0];
+      const moisIndex = parseInt(parts[1], 10) - 1;
+      if (!annee || isNaN(moisIndex) || moisIndex < 0 || moisIndex > 11) return '';
+      return `${MOIS[moisIndex]} ${annee}`;
+    }
+
     if (typeof jeux === 'undefined' || jeux.length === 0) {
       grid.innerHTML = `<p style="color: var(--muted); text-align:center; grid-column: 1/-1;">Aucun jeu pour le moment — ajoute-en dans jeux.js !</p>`;
     } else {
@@ -655,6 +673,11 @@
             </a>`
           : '';
 
+        const dateLabel = formatDate(jeu.date);
+        const dateHtml = dateLabel
+          ? `<p class="game-date">${dateLabel}</p>`
+          : '';
+
         grid.innerHTML += `
           <div class="game-card" data-titre="${jeu.titre.toLowerCase()}">
             <div class="game-thumb">
@@ -665,6 +688,7 @@
               <h3 class="game-title">${jeu.titre}</h3>
               <p class="game-desc">${jeu.description}</p>
               ${linkHtml}
+              ${dateHtml}
             </div>
           </div>`;
       });
