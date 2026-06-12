@@ -429,6 +429,80 @@
       margin-top: 0.9rem;
     }
 
+    /* UPCOMING / TEASER SECTION */
+    .upcoming-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    .upcoming-box {
+      border: 1px dashed rgba(192,0,26,0.35);
+      border-radius: 6px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .upcoming-badge {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .upcoming-badge::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: upcoming-pulse 1.6s ease-in-out infinite;
+    }
+
+    .upcoming-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      letter-spacing: 0.04em;
+      margin-top: 0.4rem;
+    }
+
+    .upcoming-desc {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-top: 0.3rem;
+    }
+
+    .upcoming-eta {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.4rem 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .upcoming-eta span { color: var(--red); font-weight: 700; }
+
+    @keyframes upcoming-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
     /* ABOUT SECTION */
     .about-section {
       max-width: 1000px;
@@ -919,6 +993,19 @@
       noResults.classList.toggle('visible', visibleCount === 0 && cards.length > 0);
     });
   </script>
+
+  <section class="upcoming-section">
+    <div class="upcoming-box">
+      <p class="upcoming-badge">En développement</p>
+      <h2 class="upcoming-title">The Last Sentinel — Version complète</h2>
+      <p class="upcoming-desc">
+        Le prototype présenté ci-dessus n'est qu'un avant-goût. La version complète
+        de <strong style="color: var(--text);">The Last Sentinel</strong> arrive,
+        avec encore plus de hordes, de zones à explorer et de raisons de survivre.
+      </p>
+      <p class="upcoming-eta">Sortie estimée : <span>Août – Octobre 2026</span></p>
+    </div>
+  </section>
 
   <section id="apropos" class="about-section">
     <div class="about-grid">
