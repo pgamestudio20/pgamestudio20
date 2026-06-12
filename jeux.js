@@ -27,12 +27,11 @@ const jeux = [
     lien: "https://adonacj.itch.io/scale-breaker"
   },
 
-  // 👇 Exemple de nouveau jeu (à copier/modifier, puis enlève "//" devant chaque ligne)
-  // {
-  //   titre: "Nom de ton jeu",
-  //   genre: "Survival Horror",
-  //   description: "Description courte de ton jeu en 1-2 phrases.",
-  //   lien: "https://tonlien.itch.io/ton-jeu"
-  // },
+   
+   {
+     titre: "The last sentinel",
+     genre: "Survival Horror",
+     description: "Incarnez Karl et survivez aux hordes de zombies 🧟‍♂️💥.",
+     lien:  "https://thelastsentinel.netlify.app },
 
-];
+],
