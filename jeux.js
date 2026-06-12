@@ -32,7 +32,7 @@ const jeux = [
   },
 
   {
-    titre: "The last sentine",
+    titre: "The last sentinel:Prototypage",
     genre: "Survival Horror",
     description: "Incarnez Karl et survivez aux hordes de zombies 🧟‍♂️💥.",
     lien: "https://thelastsentinel.netlify.app",
