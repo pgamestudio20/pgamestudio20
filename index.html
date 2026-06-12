@@ -1025,112 +1025,130 @@
 <!-- 1. LE STYLE VISUEL DE NOX (CSS)            -->
 <!-- ========================================== -->
 <style>
+    /* Bouton lanceur avec la tête de Nox */
     .nox-chat-launcher {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        background-color: #ff0000;
-        color: white;
-        border: none;
+        background-color: #111;
+        border: 2px solid #ff0000;
         border-radius: 50%;
-        width: 60px;
-        height: 60px;
+        width: 70px;  
+        height: 70px;
         cursor: pointer;
-        box-shadow: 0 4px 15px rgba(255, 0, 0, 0.5);
+        box-shadow: 0 4px 20px rgba(255, 0, 0, 0.6);
         z-index: 99999;
-        font-size: 24px;
+        overflow: hidden; 
         display: flex;
         align-items: center;
         justify-content: center;
         transition: transform 0.2s;
     }
     .nox-chat-launcher:hover { transform: scale(1.1); }
+    .nox-chat-launcher img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+    }
 
+    /* La GRANDE boîte de discussion */
     .nox-chat-box {
         position: fixed;
-        bottom: 90px;
+        bottom: 100px;
         right: 20px;
-        width: 320px;
-        height: 400px;
+        width: 380px;      
+        height: 550px;     
         background-color: #0d0d0d;
         border: 2px solid #ff0000;
-        border-radius: 12px;
-        box-shadow: 0 5px 25px rgba(0,0,0,0.8);
-        display: none; /* Caché au départ */
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+        display: none;
         flex-direction: column;
         z-index: 99999;
         font-family: sans-serif;
         overflow: hidden;
     }
 
+    /* L'en-tête avec le nom et la photo de Nox */
     .nox-chat-header {
         background-color: #1a1a1a;
-        padding: 12px;
+        padding: 15px;
         color: #ff0000;
         font-weight: bold;
-        border-bottom: 1px solid #ff0000;
+        border-bottom: 2px solid #ff0000;
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
-
-    .nox-chat-messages {
-        flex: 1;
-        padding: 12px;
-        overflow-y: auto;
-        color: #ffffff;
-        font-size: 14px;
+    .nox-header-profile {
         display: flex;
-        flex-direction: column;
-        gap: 10px;
-        background-color: #080808;
+        align-items: center;
+        gap: 12px;
+    }
+    .nox-header-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid #ff0000;
+        object-fit: cover;
     }
 
-    .msg { padding: 8px 12px; border-radius: 8px; max-width: 80%; word-wrap: break-word; }
+    /* Zone des messages */
+    .nox-chat-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+        color: #ffffff;
+        font-size: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background-color: #050505;
+    }
+
+    .msg { padding: 10px 14px; border-radius: 10px; max-width: 85%; word-wrap: break-word; line-height: 1.4; }
     .msg-nox { background-color: #200000; border: 1px solid #ff0000; align-self: flex-start; color: #ffcccc; }
     .msg-user { background-color: #252525; align-self: flex-end; color: #ffffff; }
 
-    .nox-chat-input-area { display: flex; border-top: 1px solid #222; background-color: #111; }
-    .nox-chat-input-area input { flex: 1; background: transparent; border: none; padding: 12px; color: white; outline: none; }
-    .nox-chat-input-area button { background-color: #ff0000; color: white; border: none; padding: 0 15px; cursor: pointer; font-weight: bold; }
+    /* Zone d'écriture */
+    .nox-chat-input-area { display: flex; border-top: 1px solid #222; background-color: #111; padding: 5px; }
+    .nox-chat-input-area input { flex: 1; background: transparent; border: none; padding: 12px; color: white; outline: none; font-size: 14px; }
+    .nox-chat-input-area button { background-color: #ff0000; color: white; border: none; padding: 0 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
 </style>
 
-<!-- ========================================== -->
-<!-- 2. LA STRUCTURE DE L'INTERFACE (HTML)      -->
-<!-- ========================================== -->
-<!-- Ajout d'un ID sur le bouton pour pouvoir le manipuler si besoin -->
-<button class="nox-chat-launcher" id="noxBtn" onclick="toggleNoxChat()">👁️</button>
+<button class="nox-chat-launcher" id="noxBtn" onclick="toggleNoxChat()">
+    <img src="mascotte.png" alt="Nox">
+</button>
 
-<!-- On force le style="display: none;" directement dans l'HTML pour le JS -->
 <div class="nox-chat-box" id="noxChatBox" style="display: none;">
     <div class="nox-chat-header">
-        <span>NOX - L'IA de P-GAME</span>
-        <button onclick="toggleNoxChat()" style="background:none; border:none; color:#ff0000; cursor:pointer; font-weight:bold; font-size:16px;">❌</button>
+        <div class="nox-header-profile">
+            <img src="mascotte.png" class="nox-header-avatar" alt="Nox">
+            <span>NOX SYSTEM v1.0</span>
+        </div>
+        <button onclick="toggleNoxChat()" style="background:none; border:none; color:#ff0000; cursor:pointer; font-weight:bold; font-size:18px;">❌</button>
     </div>
     <div class="nox-chat-messages" id="noxMessages">
-        <div class="msg msg-nox">Hum... Bonjour humain. Je suis NOX, l'IA de P-GAME STUDIO. Pose-moi une question sur nos jeux ou sur le studio, si tu l'oses... 🖤</div>
+        <div class="msg msg-nox">Hum... Te voilà enfin dans mes circuits. Je suis NOX, l'entité cybernétique de P-GAME STUDIO. Pose-moi tes questions sur Scale Breaker, The Last Sentinel, Adonael ou Marc... si ton esprit le supporte. 🖤 👀</div>
     </div>
     <div class="nox-chat-input-area">
-        <input type="text" id="noxUserInput" placeholder="Pose ta question à Nox..." onkeypress="verifierEntree(event)">
+        <input type="text" id="noxUserInput" placeholder="Écris à Nox..." onkeypress="verifierEntree(event)">
         <button onclick="enviarMessageNox()">OK</button>
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- 3. LA LOGIQUE DE COMPORTEMENT (JAVASCRIPT) -->
-<!-- ========================================== -->
 <script>
 const connaissancesNox = {
     "scale breaker": "Scale Breaker ? C'est le premier jeu du studio ! Un jeu d'aventure super original où tu grandis et rétrécis pour survivre face aux robots de Katachi Corp ! La version corrigée est dispo ! 🦾",
     "the last sentinel": "The Last Sentinel est notre prochain gros projet ! Un jeu de survie horror en 2D avec des hordes de zombies. Le prototype arrive bientôt, reste aux aguets... 💀",
     "zombie": "Les zombies... Ils arrivent dans The Last Sentinel. Prépare-toi à courir et à survivre dans l'univers sombre de P-GAME STUDIO. 🧟‍♂️",
     "adonael": "Adonael est le grand Maestro du code, le créateur et fondateur de P-GAME STUDIO. C'est lui qui me donne vie en écrivant mes lignes de script ! 💻",
-    "marc": "Marc est le Directeur Artistique du studio ! C'est le crack qui a dessiné mon apparence d'ombre aux yeux rouges. Respecte ses croquis ! 🎨",
+    "marc": "Marc est le Directeur Artistique du studio ! C'est le crack qui a dessinez mon apparence d'ombre aux yeux rouges. Respecte ses croquis ! 🎨",
     "bonjour": "Hum... Bonjour humain. Je suis NOX, l'IA de P-GAME STUDIO. Pose-moi une question sur nos jeux ou sur le studio, si tu l'oses... 🖤",
     "salut": "Hum... Salut humain. Je suis NOX, l'IA de P-GAME STUDIO. Pose-moi une question sur nos jeux ou sur le studio, si tu l'oses... 🖤"
+    "Projet en cours":Salut actuellement nous travaillons sur the last sentinel quelque mois avant un prototype pourri a ete creer mais d'ici deux mois il sera pro ! ",
 };
 
-// Fonction simplifiée au maximum pour éviter les bugs de lecture
 function toggleNoxChat() {
     const chatBox = document.getElementById("noxChatBox");
     if (chatBox.style.display === "none") {
@@ -1163,7 +1181,7 @@ function enviarMessageNox() {
         messagesContainer.appendChild(noxDiv);
         
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }, 400); 
+    }, 450); 
 }
 
 function genererReponseNox(phrase) {
