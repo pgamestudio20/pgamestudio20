@@ -1219,16 +1219,18 @@
   }
 
   function genererReponseNox(phrase) {
-      const phraseMinuscule = phrase.toLowerCase();
-      
-      for (let motCle in connaissancesNox) {
-          if (phraseMinuscule.includes(motCle)) {
-              return connaissancesNox[motCle];
-          }
-      }
-      
-     return "Je ne comprends pas ta question terrestre... Mes connaissances se limitent à  P-GAME STUDIO. Pose-moi une vraie question ! 👁️";
-  }
+    const phraseMinuscule = phrase.toLowerCase();
+
+    for (let motCle in connaissancesNox) {
+        if (phraseMinuscule.includes(motCle)) {
+            return connaissancesNox[motCle];
+        }
+    }
+
+    alerterAdonael(phrase);
+
+    return "Je ne comprends pas ta question terrestre... Mes connaissances se limitent à P-GAME STUDIO.";
+}    
   </script>
 
   <script>  
