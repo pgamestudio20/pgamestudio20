@@ -1238,24 +1238,23 @@
       }
   }
 
-  function alerterAdonael(messageInconnu) {
-    // CORRIGÉ : Ajout des guillemets autour de l'URL !
-    const urlWebhook = "https://discord.com/api/webhooks/1515410078390550578/wzbWBSfWmn3z3uXI9z_b_7prlKjlSl_Ccf5uAz4h4lg6G-dLDl30_MQ4DY7oa_zWxb6L"; 
-    
-    fetch(urlWebhook, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            username: "Nox - Base de Données",
-            avatar_url: "https://r2.erweima.ai/ai_background/production/aa1f52b0-681b-4171-be56-02e071ff1100.png",
-            content: `⚠️ **Mot inconnu détecté !** Un joueur a écrit : \`${messageInconnu}\`. Pense à l'ajouter dans connaissancesNox, Créateur ! 💻`
-        })
-    })
-    .catch(err => console.log("Erreur d'envoi Webhook: ", err));
-  }
-
+ function alerterAdonael(messageInconnu) {
+  // CORRIGÉ : Nouvelle URL de ton Webhook Discord injectée !
+  const urlWebhook = "https://discord.com/api/webhooks/1515417593605783763/vmH9gG95e4VVhggnZFYNJOaRWujhl_Buq5WBABSPfdwoAG-iJQM_MJbjZbEGeGMEgAd8"; 
+  
+  fetch(urlWebhook, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          username: "Nox - Base de Données",
+          avatar_url: "https://r2.erweima.ai/ai_background/production/aa1f52b0-681b-4171-be56-02e071ff1100.png", // L'œil rouge de Nox
+          content: `⚠️ **Mot inconnu détecté !** Un joueur a écrit : \`${messageInconnu}\`. Pense à l'ajouter dans connaissancesNox, Créateur ! 💻`
+      })
+  })
+  .catch(err => console.log("Erreur d'envoi Webhook: ", err));
+}
   // CORRIGÉ : Ce bloc doit être dans ta fonction principale "enviarMessageNox()" 
   // Là où tu décides de ce que Nox doit répondre !
   /* 
