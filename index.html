@@ -1240,24 +1240,19 @@
       }
   }
 
- function alerterAdonael(messageInconnu) {
-  // CORRIGÉ : Nouvelle URL de ton Webhook Discord injectée !
-  const urlWebhook = "https://discord.com/api/webhooks/1515417593605783763/vmH9gG95e4VVhggnZFYNJOaRWujhl_Buq5WBABSPfdwoAG-iJQM_MJbjZbEGeGMEgAd8"; 
-  
-  fetch(urlWebhook, {
+ function alerterAdonael(messageInconnu) 
+ {
+  // On envoie le message à notre route secrète Netlify au lieu de Discord directement
+  fetch("/.netlify/functions/alerte-nox", {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-          username: "Nox - Base de Données",
-          avatar_url: "https://r2.erweima.ai/ai_background/production/aa1f52b0-681b-4171-be56-02e071ff1100.png", // L'œil rouge de Nox
-          content: `⚠️ **Mot inconnu détecté !** Un joueur a écrit : \`${messageInconnu}\`. Pense à l'ajouter dans connaissancesNox, Créateur ! 💻`
-      })
+      body: JSON.stringify({ message: messageInconnu })
   })
-  .catch(err => console.log("Erreur d'envoi Webhook: ", err));
-}
-  // CORRIGÉ : Ce bloc doit être dans ta fonction principale "enviarMessageNox()" 
+  .then(res => console.log("Rapport envoyé via Netlify !"))
+  .catch(err => console.log("Erreur de transmission : ", err));
+}  // CORRIGÉ : Ce bloc doit être dans ta fonction principale "enviarMessageNox()" 
   // Là où tu décides de ce que Nox doit répondre !
   /* 
   if (reponseTrouvee) {
