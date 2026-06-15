@@ -2282,7 +2282,6 @@
       }
   }
 
-  // LA GRANDE FONCTION DE CONNEXION AVEC L'IA DE NOX !
   async function enviarMessageNox() {
       const inputField = document.getElementById("noxUserInput");
       const messageText = inputField.value.trim();
@@ -2301,7 +2300,11 @@
       inputField.value = "";
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-      // 2. On affiche une petite bulle d'attente pour faire style "Nox réfléchit..."
+      // ==========================================
+      // LÀ OÙ ÇA COUPAIT : LA SUITE CONNECTÉE À L'IA ! 🤖⚡
+      // ==========================================
+      
+      // 2. On affiche une petite bulle d'attente "Nox réfléchit..."
       const waitingDiv = document.createElement("div");
       waitingDiv.className = "msg msg-nox";
       waitingDiv.innerText = "🤖 Réflexion cybernétique en cours...";
@@ -2309,7 +2312,7 @@
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
       try {
-          // 3. ON ENVOIE LA REQUÊTE AU CERVEAU NETLIFY
+          // 3. On envoie la requête à ta fonction Netlify
           const response = await fetch("/.netlify/functions/alerte-nox", {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -2318,19 +2321,21 @@
 
           const data = await response.json();
           
-          // On retire la bulle d'attente
+          // On retire la bulle de chargement
           messagesContainer.removeChild(waitingDiv);
 
-          // 4. ON AFFICHE LA VRAIE RÉPONSE INTELLIGENTE DU ROBOT !
+          // 4. On affiche la VRAIE réponse générée par l'IA !
           const noxDiv = document.createElement("div");
           noxDiv.className = "msg msg-nox";
-          noxDiv.innerText = data.reply; // Récupère le texte généré par Gemini !
+          noxDiv.innerText = data.reply; // <-- Raccordé directement au cerveau de l'IA
           messagesContainer.appendChild(noxDiv);
 
       } catch (error) {
-          // Secours si jamais la fonction Netlify a un problème de réseau
-          console.error("Erreur transmission Nox:", error);
-          messagesContainer.removeChild(waitingDiv);
+          // Secours si le serveur ou le quota API bloque
+          console.error("Erreur de transmission Nox :", error);
+          if (messagesContainer.contains(waitingDiv)) {
+              messagesContainer.removeChild(waitingDiv);
+          }
           
           const noxDiv = document.createElement("div");
           noxDiv.className = "msg msg-nox";
@@ -2340,6 +2345,7 @@
 
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
+      
 </script> 
 </body>
 </html>
