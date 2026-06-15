@@ -2243,139 +2243,91 @@
           </div>
           <button onclick="toggleNoxChat()" style="background:none; border:none; color:#ff0000; cursor:pointer; font-weight:bold; font-size:18px;">❌</button>
       </div>
-      <div class="nox-chat-messages" id="noxMessages">
-          <div class="msg msg-nox">Hum... Te voilà enfin dans mes circuits. Je suis NOX, l'entité cybernétique de P-GAME STUDIO. Pose-moi tes questions sur Scale Breaker, The Last Sentinel, Adonael ou Marc... si ton esprit le supporte. 🖤 👀</div>
-      </div>
-      <div class="nox-chat-input-area">
-          <input type="text" id="noxUserInput" placeholder="Écris à Nox..." onkeypress="verifierEntree(event)">
-          <button onclick="enviarMessageNox()">OK</button>
-      </div>
-  </div>
+      
+  <div id="noxChatBox" style="display: flex; flex-direction: column; width: 350px; height: 500px; background: #111; border: 2px solid red; border-radius: 8px;">
+    
+    <div id="noxMessages" style="flex: 1; overflow-y: auto; padding: 10px; color: white;">
+        <div class="msg msg-nox">🤖 NOX : Système armé. Pose-moi une question sur le studio ou les projets.</div>
+    </div>
 
-  
-  <script>
-  
-  const connaissancesNox = {
-      "scale breaker": "Scale Breaker ? C'est le premier jeu du studio ! Un jeu d'aventure super original où tu grandis et rétrécis pour survivre face aux robots de Katachi Corp ! 🦾",
-      "the last sentinel": "The Last Sentinel est notre prochain gros projet ! Un jeu de survie horror en 2D avec des hordes de zombies. Le prototype arrive bientôt, reste aux aguets... 💀",
-      "zombie": "Les zombies... Ils arrivent dans The Last Sentinel. Prépare-toi à courir et à survivre dans l'univers sombre de P-GAME STUDIO. 🧟‍♂️",
-      "adonael": "Adonael est le grand Maestro du code, le créateur et fondateur de P-GAME STUDIO. C'est lui qui me donne vie en écrivant mes lignes de script ! 💻",
-      "marc": "Marc est le Directeur Artistique du studio ! C'est le crack qui a dessiné mon apparence d'ombre aux yeux rouges. Respecte ses croquis ! 🎨"
-  };    
+    <div style="display: flex; padding: 10px; background: #000;">
+        <input type="text" id="noxUserInput" onkeydown="verifierEntree(event)" placeholder="Écris à Nox..." style="flex: 1; padding: 8px; background: #222; color: white; border: 1px solid #444;" />
+        <button onclick="enviarMessageNox()" style="background: red; color: white; border: none; padding: 8px 15px; cursor: pointer; font-weight: bold;">OK</button>
+    </div>
+</div>
 
-  <script>
+<script>
   function toggleNoxChat() {
-    const chatBox = document.getElementById("noxChatBox");
-    chatBox.style.display = (chatBox.style.display === "none" || chatBox.style.display === "") ? "flex" : "none";
+      const chatBox = document.getElementById("noxChatBox");
+      if (chatBox) {
+          chatBox.style.display = (chatBox.style.display === "none" || chatBox.style.display === "") ? "flex" : "none";
+      }
   }
 
   function verifierEntree(event) {
-    if (event.key === "Enter") {
-      enviarMessageNox();
-    }
+      if (event.key === "Enter") {
+          enviarMessageNox();
+      }
   }
 
-  async function enviarMessageNox() {
-    const inputField = document.getElementById("noxUserInput");
-    const messageText = inputField.value.trim();
-    if (messageText === "") return;
+  function enviarMessageNox() {
+      const inputField = document.getElementById("noxUserInput");
+      const messagesContainer = document.getElementById("noxMessages");
 
-    const messagesContainer = document.getElementById("noxMessages");
-
-    const userDiv = document.createElement("div");
-    userDiv.className = "msg msg-user";
-    userDiv.innerText = messageText;
-    messagesContainer.appendChild(userDiv);
-    inputField.value = "";
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-    const dataBase = {
-      repliques: {
-        salutations: {
-          fr: [
-            "Humain détecté. Que veux-tu ?",
-            "Connexion établie. En attente de tes instructions.",
-            "Système en ligne. Identification confirmée. Parle.",
-            "Accès autorisé. Je t'écoute."
-          ]
-        },
-        questions_reponses: {
-          fr: {
-            "studio": "P-GAME STUDIO. Zone hautement sécurisée. Créations en cours.",
-            "zombie": "Menace biologique détectée. Protocole de confinement activé. 🧟",
-            "scale breaker": "Scale Breaker ? C'est le premier jeu du studio ! Un jeu d'aventure original où tu grandis et rétrécis pour survivre face aux robots de Katachi Corp ! 🦾",
-            "the last sentinel": "The Last Sentinel est notre prochain gros projet ! Un jeu de survie horror en 2D avec des hordes de zombies. Reste aux aguets... 💀",
-            "adonael": "Adonael est le grand Maestro du code, le créateur et fondateur de P-GAME STUDIO. C'est lui qui me donne vie ! 💻",
-            "marc": "Marc est le Directeur Artistique du studio ! C'est lui qui a dessiné mon apparence. 🎨",
-            "projet": "Données classifiées. Niveau d'accréditation insuffisant.",
-            "aide": "Assistance activée. Formule ta requête clairement.",
-            "info": "Accès aux informations accordé. Précise ta demande."
-          }
-        },
-        erreurs_incomprehension: {
-          fr: [
-            "Requête non reconnue. Reformule.",
-            "Données corrompues. Entrée invalide.",
-            "Signal brouillé. Je n'ai pas compris. Répète.",
-            "Commande inconnue. Reformule ta question.",
-            "Erreur 404 : réponse introuvable dans ma base de données."
-          ]
-        },
-        au_revoir: {
-          fr: [
-            "Déconnexion imminente. À la prochaine, humain.",
-            "Session terminée. Système en veille.",
-            "Protocole de fermeture initié. Bonne continuation.",
-            "Connexion coupée. Je reste en surveillance."
-          ]
-        }
-      }
-    };
-
-    try {
-      const phraseMinuscule = messageText.toLowerCase();
-      let reponseTrouvee = null;
-
-      const dicoQuestions = dataBase.repliques.questions_reponses.fr;
-      for (let motCle in dicoQuestions) {
-        if (phraseMinuscule.includes(motCle)) {
-          reponseTrouvee = dicoQuestions[motCle];
-          break;
-        }
+      // Sécurité si les ID ont bougé
+      if (!inputField || !messagesContainer) {
+          console.error("Erreur de liaison HTML : Les conteneurs n'existent pas.");
+          return;
       }
 
-      if (!reponseTrouvee && (phraseMinuscule.includes("salut") || phraseMinuscule.includes("bonjour") || phraseMinuscule.includes("hey"))) {
-        const liste = dataBase.repliques.salutations.fr;
-        reponseTrouvee = liste[Math.floor(Math.random() * liste.length)];
-      }
+      const messageText = inputField.value.trim();
+      if (messageText === "") return;
 
-      if (!reponseTrouvee && (phraseMinuscule.includes("au revoir") || phraseMinuscule.includes("bye") || phraseMinuscule.includes("quitter"))) {
-        const liste = dataBase.repliques.au_revoir.fr;
-        reponseTrouvee = liste[Math.floor(Math.random() * liste.length)];
-      }
+      // A. Affichage immédiat du message de l'utilisateur
+      const userDiv = document.createElement("div");
+      userDiv.style.margin = "8px 0";
+      userDiv.style.textAlign = "right";
+      userDiv.innerHTML = `<span style="background: #333; padding: 6px 10px; border-radius: 4px; display: inline-block;">${messageText}</span>`;
+      messagesContainer.appendChild(userDiv);
 
-      if (!reponseTrouvee) {
-        const liste = dataBase.repliques.erreurs_incomprehension.fr;
-        reponseTrouvee = liste[Math.floor(Math.random() * liste.length)];
-      }
-
-      setTimeout(() => {
-        const noxDiv = document.createElement("div");
-        noxDiv.className = "msg msg-nox";
-        noxDiv.innerText = reponseTrouvee;
-        messagesContainer.appendChild(noxDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      }, 300);
-
-    } catch (error) {
-      console.error(error);
-      const noxDiv = document.createElement("div");
-      noxDiv.className = "msg msg-nox";
-      noxDiv.innerText = "Erreur de traitement interne des modules.";
-      messagesContainer.appendChild(noxDiv);
+      inputField.value = "";
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
+
+      // B. Analyse lexicale directe des chaînes
+      const phrase = messageText.toLowerCase();
+      let reponseNox = "";
+
+      if (phrase.includes("studio")) {
+          reponseNox = "P-GAME STUDIO. Zone hautement sécurisée. Créations en cours.";
+      } else if (phrase.includes("zombie")) {
+          reponseNox = "Les zombies... Ils arrivent dans The Last Sentinel. Prépare-toi à courir et à survivre dans l'univers sombre de P-GAME STUDIO. 🧟‍♂️";
+      } else if (phrase.includes("scale breaker")) {
+          reponseNox = "Scale Breaker ? C'est le premier jeu du studio ! Un jeu d'aventure super original où tu grandis et rétrécis pour survivre face aux robots de Katachi Corp ! 🦾";
+      } else if (phrase.includes("the last sentinel")) {
+          reponseNox = "The Last Sentinel est notre prochain gros projet ! Un jeu de survie horror en 2D avec des hordes de zombies. Le prototype arrive bientôt, reste aux aguets... 💀";
+      } else if (phrase.includes("adonael")) {
+          reponseNox = "Adonael est le grand Maestro du code, le créateur et fondateur de P-GAME STUDIO. C'est lui qui me donne vie en écrivant mes lignes de script ! 💻";
+      } else if (phrase.includes("marc")) {
+          reponseNox = "Marc est le Directeur Artistique du studio ! C'est le crack qui a dessiné mon apparence d'ombre aux yeux rouges. Respecte ses croquis ! 🎨";
+      } else if (phrase.includes("salut") || phrase.includes("bonjour") || phrase.includes("hey")) {
+          reponseNox = "Humain détecté. Que veux-tu ?";
+      } else if (phrase.includes("au revoir") || phrase.includes("bye")) {
+          reponseNox = "Session terminée. Système en veille.";
+      } else {
+          reponseNox = "Requête non reconnue par mon système local. Reformule.";
+      }
+
+      // C. Réponse cadencée de NOX
+      setTimeout(() => {
+          const noxDiv = document.createElement("div");
+          noxDiv.style.margin = "8px 0";
+          noxDiv.style.textAlign = "left";
+          noxDiv.innerHTML = `<span style="background: red; color: white; padding: 6px 10px; border-radius: 4px; display: inline-block;">🤖 NOX : ${reponseNox}</span>`;
+          messagesContainer.appendChild(noxDiv);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }, 200);
   }
+  
 </script>
 </body>
 </html>
