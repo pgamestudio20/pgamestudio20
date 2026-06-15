@@ -1,0 +1,77 @@
+{
+  "chatbot": {
+    "nom": "P-GAME AI",
+    "version": "1.0.0",
+    "langues": ["fr", "en"]
+  },
+
+  "repliques": {
+
+    "salutations": {
+      "fr": [
+        "Humain détecté. Que veux-tu ?",
+        "Connexion établie. En attente de tes instructions.",
+        "Système en ligne. Identification confirmée. Parle.",
+        "Accès autorisé. Je t'écoute."
+      ],
+      "en": [
+        "Human detected. What do you want?",
+        "Connection established. Awaiting your instructions.",
+        "System online. Identity confirmed. Speak.",
+        "Access granted. I'm listening."
+      ]
+    },
+
+    "questions_reponses": {
+      "fr": {
+        "studio": "P-GAME STUDIO. Zone hautement sécurisée. Créations en cours.",
+        "zombie": "Menace biologique détectée. Protocole de confinement activé.",
+        "scale breaker": "Projet Scale Breaker en ligne. Soumission validée.",
+        "projet": "Données classifiées. Niveau d'accréditation insuffisant.",
+        "aide": "Assistance activée. Formule ta requête clairement.",
+        "info": "Accès aux informations accordé. Précise ta demande."
+      },
+      "en": {
+        "studio": "P-GAME STUDIO. Highly secured zone. Creations in progress.",
+        "zombie": "Biological threat detected. Containment protocol activated.",
+        "scale breaker": "Scale Breaker project online. Submission validated.",
+        "project": "Classified data. Insufficient clearance level.",
+        "help": "Assistance activated. State your request clearly.",
+        "info": "Information access granted. Specify your query."
+      }
+    },
+
+    "erreurs_incomprehension": {
+      "fr": [
+        "Requête non reconnue. Reformule.",
+        "Données corrompues. Entrée invalide.",
+        "Signal brouillé. Je n'ai pas compris. Répète.",
+        "Commande inconnue. Consulte le manuel ou reformule ta question.",
+        "Erreur 404 : réponse introuvable dans ma base de données."
+      ],
+      "en": [
+        "Request not recognized. Rephrase.",
+        "Corrupted data. Invalid input.",
+        "Signal jammed. I did not understand. Repeat.",
+        "Unknown command. Check the manual or rephrase your question.",
+        "Error 404: response not found in my database."
+      ]
+    },
+
+    "au_revoir": {
+      "fr": [
+        "Déconnexion imminente. À la prochaine, humain.",
+        "Session terminée. Système en veille.",
+        "Protocole de fermeture initié. Bonne continuation.",
+        "Connexion coupée. Je reste en surveillance."
+      ],
+      "en": [
+        "Disconnection imminent. Until next time, human.",
+        "Session ended. System on standby.",
+        "Shutdown protocol initiated. Take care.",
+        "Connection severed. I remain on watch."
+      ]
+    }
+
+  }
+}
