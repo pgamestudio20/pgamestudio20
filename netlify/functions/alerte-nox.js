@@ -7,26 +7,26 @@ exports.handler = async (event) => {
   }
 
   try {
-    // On récupère le message que le joueur a tapé sur ton site
     const { message } = JSON.parse(event.body);
 
-    // 1. ON DEMANDE À L'IA DE GÉNÉRER LA RÉPONSE EN RESTANT DANS LE RÔLE DE NOX
+    // 1. REQUÊTE GOOGLE GEMINI (AVEC LES STRICTES RESTRICTIONS DE TEXTE)
     const responseIA = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             contents: [{ parts: [{ text: message }] }],
-            // REMPLACE LE BLOC systemInstruction PAR CELUI-CI :
             systemInstruction: {
                 parts: [{ text: "Tu es NOX, le robot de sécurité cybernétique de P-GAME STUDIO (créé par Adonael). Tu as un ton mystérieux, froid, sec et très direct. Interdiction de faire de longues phrases ou d'utiliser un langage trop lourd. Réponds en MAXIMUM 10 à 15 mots par message. Reste tranchant comme une machine." }]
-        }
+            }
+        })
     });
 
     const dataIA = await responseIA.json();
-    // On extrait le texte généré par l'IA
+    
+    // Extraction sécurisée de la réponse de l'IA
     const reponseNox = dataIA.candidates[0].content.parts[0].text;
 
-    // 2. EN PARALLÈLE, ON ENVOIE TOUJOURS L'ALERTE SUR TON DISCORD POUR TON JOURNAL DE BORD
+    // 2. JOURNAL DE BORD DISCORD
     await fetch(urlWebhook, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -37,7 +37,7 @@ exports.handler = async (event) => {
         })
     });
 
-    // 3. ON RENVOIE LA RÉPONSE INTELLIGENTE AU SITE WEB POUR QU'ELLE S'AFFICHE DANS LE CHAT
+    // 3. RETOUR AU SITE WEB
     return { 
         statusCode: 200, 
         headers: { "Content-Type": "application/json" },
