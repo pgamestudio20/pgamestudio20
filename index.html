@@ -2278,7 +2278,7 @@
       }
   }
 
-  async function enviarMessageNox() {
+async function enviarMessageNox() {
       const inputField = document.getElementById("noxUserInput");
       const messageText = inputField.value.trim();
       
@@ -2295,25 +2295,38 @@
       inputField.value = "";
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-      // 2. VERIFICATION DES MOTS-CLÉS LOCAUX (Pas de limite de temps !)
-      const phraseMinuscule = messageText.toLowerCase();
-      let reponseLocale = null;
+      try {
+          // 2. Nox va chercher lui-même dans le fichier texte/json !
+          const response = await fetch("connaissances.json");
+          const reponsesNox = await response.json();
 
-      for (let motCle in connaissancesNox) {
-          if (phraseMinuscule.includes(motCle)) {
-              reponseLocale = connaissancesNox[motCle];
-              break; // On a trouvé, on arrête la recherche !
+          const phraseMinuscule = messageText.toLowerCase();
+          let reponseTrouvee = reponsesNox["defaut"]; // Par défaut, si on trouve rien
+
+          // On cherche si un mot-clé est dans la phrase du joueur
+          for (let motCle in reponsesNox) {
+              if (phraseMinuscule.includes(motCle) && motCle !== "defaut") {
+                  reponseTrouvee = reponsesNox[motCle];
+                  break;
+              }
           }
-      }
 
-      // Si on a une réponse locale, on l'affiche direct sans appeler Netlify !
-      if (reponseLocale) {
+          // 3. On affiche la réponse de Nox après un mini temps de réflexion
           setTimeout(() => {
               const noxDiv = document.createElement("div");
               noxDiv.className = "msg msg-nox";
-              noxDiv.innerText = reponseLocale;
+              noxDiv.innerText = reponseTrouvee;
               messagesContainer.appendChild(noxDiv);
               messagesContainer.scrollTop = messagesContainer.scrollHeight;
+          }, 400);
+
+      } catch (error) {
+          console.error("Erreur de lecture du fichier :", error);
+          const noxDiv = document.createElement("div");
+          noxDiv.className = "msg msg-nox";
+          noxDiv.innerText = "Fichier de données introuvable.";
+          messagesContainer.appendChild(noxDiv);
+      }             messagesContainer.scrollTop = messagesContainer.scrollHeight;
           }, 300);
           return; // On stoppe la fonction ici !
       }
