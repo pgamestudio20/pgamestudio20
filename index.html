@@ -2230,9 +2230,7 @@
     .nox-chat-input-area button { background-color: #ff0000; color: white; border: none; padding: 0 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
   </style>
 
-  <!-- ========================================== -->
-  <!-- 2. LA STRUCTURE AVEC LA TÊTE DE NOX        -->
-  <!-- ========================================== -->
+ 
   <button class="nox-chat-launcher" id="noxBtn" onclick="toggleNoxChat()">
       <img src="mascotte.png" alt="Nox">
   </button>
@@ -2254,11 +2252,9 @@
       </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- 3. LA LOGIQUE JAVASCRIPT COMPLET DE NOX     -->
-  <!-- ========================================== -->
+  
   <script>
-  // On garde ton dictionnaire au cas où le serveur met du temps à répondre (Secours local)
+  
   const connaissancesNox = {
       "scale breaker": "Scale Breaker ? C'est le premier jeu du studio ! Un jeu d'aventure super original où tu grandis et rétrécis pour survivre face aux robots de Katachi Corp ! 🦾",
       "the last sentinel": "The Last Sentinel est notre prochain gros projet ! Un jeu de survie horror en 2D avec des hordes de zombies. Le prototype arrive bientôt, reste aux aguets... 💀",
@@ -2266,7 +2262,8 @@
       "adonael": "Adonael est le grand Maestro du code, le créateur et fondateur de P-GAME STUDIO. C'est lui qui me donne vie en écrivant mes lignes de script ! 💻",
       "marc": "Marc est le Directeur Artistique du studio ! C'est le crack qui a dessiné mon apparence d'ombre aux yeux rouges. Respecte ses croquis ! 🎨"
   };    
-    
+   <script>
+  
   function toggleNoxChat() {
       const chatBox = document.getElementById("noxChatBox");
       chatBox.style.display = (chatBox.style.display === "none" || chatBox.style.display === "") ? "flex" : "none";
@@ -2295,7 +2292,7 @@ async function enviarMessageNox() {
       inputField.value = "";
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-      // 2. TA BASE DE DONNÉES ULTRA-PRO DIRECTEMENT INTÉGRÉE (Pas de bug de fichier !)
+      // 2. TA BASE DE DONNÉES ULTRA-PRO DIRECTEMENT INTÉGRÉE
       const dataBase = {
         "repliques": {
           "salutations": {
@@ -2310,7 +2307,10 @@ async function enviarMessageNox() {
             "fr": {
               "studio": "P-GAME STUDIO. Zone hautement sécurisée. Créations en cours.",
               "zombie": "Menace biologique détectée. Protocole de confinement activé.",
-              "scale breaker": "Projet Scale Breaker en ligne. Soumission validée.",
+              "scale breaker": "Scale Breaker ? C'est le premier jeu du studio ! Un jeu d'aventure super original où tu grandis et rétrécis pour survivre face aux robots de Katachi Corp ! 🦾",
+              "the last sentinel": "The Last Sentinel est notre prochain gros projet ! Un jeu de survie horror en 2D avec des hordes de zombies. Le prototype arrive bientôt, reste aux aguets... 💀",
+              "adonael": "Adonael est le grand Maestro du code, le créateur et fondateur de P-GAME STUDIO. C'est lui qui me donne vie en écrivant mes lignes de script ! 💻",
+              "marc": "Marc est le Directeur Artistique du studio ! C'est le crack qui a dessiné mon apparence d'ombre aux yeux rouges. Respecte ses croquis ! 🎨",
               "projet": "Données classifiées. Niveau d'accréditation insuffisant.",
               "aide": "Assistance activée. Formule ta requête clairement.",
               "info": "Accès aux informations accordé. Précise ta demande."
@@ -2341,6 +2341,57 @@ async function enviarMessageNox() {
           const langue = "fr"; 
           let reponseTrouvee = null;
 
+    
+          const dicoQuestions = dataBase.repliques.questions_reponses[langue];
+          for (let motCle in dicoQuestions) {
+              if (phraseMinuscule.includes(motCle)) {
+                  reponseTrouvee = dicoQuestions[motCle];
+                  break;
+              }
+          }
+
+
+          if (!reponseTrouvee && (phraseMinuscule.includes("salut") || phraseMinuscule.includes("bonjour") || phraseMinuscule.includes("hey"))) {
+              const listeSalutations = dataBase.repliques.salutations[langue];
+              reponseTrouvee = listeSalutations[Math.floor(Math.random() * listeSalutations.length)];
+          }
+
+
+          if (!reponseTrouvee && (phraseMinuscule.includes("au revoir") || phraseMinuscule.includes("bye") || phraseMinuscule.includes("quitter"))) {
+              const listeAuRevoir = dataBase.repliques.au_revoir[langue];
+              reponseTrouvee = listeAuRevoir[Math.floor(Math.random() * listeAuRevoir.length)];
+          }
+
+
+          if (!reponseTrouvee) {
+              const listeErreurs = dataBase.repliques.erreurs_incomprehension[langue];
+              reponseTrouvee = listeErreurs[Math.floor(Math.random() * listeErreurs.length)];
+          }
+
+
+          setTimeout(() => {
+              const noxDiv = document.createElement("div");
+              noxDiv.className = "msg msg-nox";
+              noxDiv.innerText = reponseTrouvee;
+              messagesContainer.appendChild(noxDiv);
+              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+          }, 300);
+
+      } catch (error) {
+          console.error(error);
+          const noxDiv = document.createElement("div");
+          noxDiv.className = "msg msg-nox";
+          noxDiv.innerText = "Erreur de traitement interne des modules.";
+          messagesContainer.appendChild(noxDiv);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+}
+</script>
+      try {
+          const phraseMinuscule = messageText.toLowerCase();
+          const langue = "fr"; 
+          let reponseTrouvee = null;
+
           // --- ÉTAPE A : QUESTIONS/RÉPONSES ---
           const dicoQuestions = dataBase.repliques.questions_reponses[langue];
           for (let motCle in dicoQuestions) {
@@ -2350,13 +2401,13 @@ async function enviarMessageNox() {
               }
           }
 
-          // --- ÉTAPE B : SALUTATIONS ---
+
           if (!reponseTrouvee && (phraseMinuscule.includes("salut") || phraseMinuscule.includes("bonjour") || phraseMinuscule.includes("hey"))) {
               const listeSalutations = dataBase.repliques.salutations[langue];
               reponseTrouvee = listeSalutations[Math.floor(Math.random() * listeSalutations.length)];
           }
 
-          // --- ÉTAPE C : AU REVOIR ---
+        
           if (!reponseTrouvee && (phraseMinuscule.includes("au revoir") || phraseMinuscule.includes("bye") || phraseMinuscule.includes("quitter"))) {
               const listeAu Revoir = dataBase.repliques.au_revoir[langue];
               reponseTrouvee = listeAuRevoir[Math.floor(Math.random() * listeAuRevoir.length)];
