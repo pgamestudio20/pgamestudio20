@@ -2286,7 +2286,7 @@ async function enviarMessageNox() {
 
       const messagesContainer = document.getElementById("noxMessages");
 
-      // 1. On affiche le message du Joueur
+      
       const userDiv = document.createElement("div");
       userDiv.className = "msg msg-user";
       userDiv.innerText = messageText;
@@ -2296,76 +2296,60 @@ async function enviarMessageNox() {
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
       try {
-          // 2. Nox va chercher lui-même dans le fichier texte/json !
+       
           const response = await fetch("connaissances.json");
-          const reponsesNox = await response.json();
+          const dataBase = await response.json();
 
           const phraseMinuscule = messageText.toLowerCase();
-          let reponseTrouvee = reponsesNox["defaut"]; // Par défaut, si on trouve rien
+          const langue = "fr"; // On force en français pour l'instant
+          
+          let reponseTrouvee = null;
 
-          // On cherche si un mot-clé est dans la phrase du joueur
-          for (let motCle in reponsesNox) {
-              if (phraseMinuscule.includes(motCle) && motCle !== "defaut") {
-                  reponseTrouvee = reponsesNox[motCle];
+          
+          const dicoQuestions = dataBase.repliques.questions_reponses[langue];
+          for (let motCle in dicoQuestions) {
+              if (phraseMinuscule.includes(motCle)) {
+                  reponseTrouvee = dicoQuestions[motCle];
                   break;
               }
           }
 
-          // 3. On affiche la réponse de Nox après un mini temps de réflexion
+
+          if (!reponseTrouvee && (phraseMinuscule.includes("salut") || phraseMinuscule.includes("bonjour") || phraseMinuscule.includes("hey"))) {
+              const listeSalutations = dataBase.repliques.salutations[langue];
+              // On prend une salutation au hasard dans ta liste !
+              reponseTrouvee = listeSalutations[Math.floor(Math.random() * listeSalutations.length)];
+          }
+
+      
+          if (!reponseTrouvee && (phraseMinuscule.includes("au revoir") || phraseMinuscule.includes("bye") || phraseMinuscule.includes("quitter"))) {
+              const listeAuRevoir = dataBase.repliques.au_revoir[langue];
+              reponseTrouvee = listeAuRevoir[Math.floor(Math.random() * listeAuRevoir.length)];
+          }
+
+         
+          if (!reponseTrouvee) {
+              const listeErreurs = dataBase.repliques.erreurs_incomprehension[langue];
+              reponseTrouvee = listeErreurs[Math.floor(Math.random() * listeErreurs.length)];
+          }
+
+   
           setTimeout(() => {
               const noxDiv = document.createElement("div");
               noxDiv.className = "msg msg-nox";
               noxDiv.innerText = reponseTrouvee;
               messagesContainer.appendChild(noxDiv);
               messagesContainer.scrollTop = messagesContainer.scrollHeight;
-          }, 400);
+          }, 350);
 
       } catch (error) {
-          console.error("Erreur de lecture du fichier :", error);
+          console.error("Erreur structurelle du JSON :", error);
           const noxDiv = document.createElement("div");
           noxDiv.className = "msg msg-nox";
-          noxDiv.innerText = "Fichier de données introuvable.";
-          messagesContainer.appendChild(noxDiv);
-      }             messagesContainer.scrollTop = messagesContainer.scrollHeight;
-          }, 300);
-          return; // On stoppe la fonction ici !
-      }
-
-      // 3. SI PAS DE MOT-CLÉ : ON APPELLE L'IA (En dernier recours)
-      const waitingDiv = document.createElement("div");
-      waitingDiv.className = "msg msg-nox";
-      waitingDiv.innerText = "🤖 Réflexion cybernétique...";
-      messagesContainer.appendChild(waitingDiv);
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-      try {
-          const response = await fetch("/.netlify/functions/alerte-nox", {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ message: messageText })
-          });
-
-          const data = await response.json();
-          messagesContainer.removeChild(waitingDiv);
-
-          const texteFinal = data.reply || data.message || "Mes circuits s'embrouillent...";
-
-          const noxDiv = document.createElement("div");
-          noxDiv.className = "msg msg-nox";
-          noxDiv.innerText = texteFinal; 
-          messagesContainer.appendChild(noxDiv);
-
-      } catch (error) {
-          console.error("Erreur:", error);
-          if (messagesContainer.contains(waitingDiv)) {
-              messagesContainer.removeChild(waitingDiv);
-          }
-          const noxDiv = document.createElement("div");
-          noxDiv.className = "msg msg-nox";
-          noxDiv.innerText = "Système bridé (1 msg/min). L'IA est fatiguée, repasse plus tard humaine.";
+          noxDiv.innerText = "Erreur fatale : Base de données corrompue.";
           messagesContainer.appendChild(noxDiv);
       }
-
+}
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
       
