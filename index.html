@@ -2290,29 +2290,46 @@
 
       const messagesContainer = document.getElementById("noxMessages");
 
-      // 1. On affiche le message du Joueur à l'écran
+      // 1. On affiche le message du Joueur
       const userDiv = document.createElement("div");
       userDiv.className = "msg msg-user";
       userDiv.innerText = messageText;
       messagesContainer.appendChild(userDiv);
 
-      // On vide le champ de saisie
       inputField.value = "";
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-      // ==========================================
-      // LÀ OÙ ÇA COUPAIT : LA SUITE CONNECTÉE À L'IA ! 🤖⚡
-      // ==========================================
-      
-      // 2. On affiche une petite bulle d'attente "Nox réfléchit..."
+      // 2. VERIFICATION DES MOTS-CLÉS LOCAUX (Pas de limite de temps !)
+      const phraseMinuscule = messageText.toLowerCase();
+      let reponseLocale = null;
+
+      for (let motCle in connaissancesNox) {
+          if (phraseMinuscule.includes(motCle)) {
+              reponseLocale = connaissancesNox[motCle];
+              break; // On a trouvé, on arrête la recherche !
+          }
+      }
+
+      // Si on a une réponse locale, on l'affiche direct sans appeler Netlify !
+      if (reponseLocale) {
+          setTimeout(() => {
+              const noxDiv = document.createElement("div");
+              noxDiv.className = "msg msg-nox";
+              noxDiv.innerText = reponseLocale;
+              messagesContainer.appendChild(noxDiv);
+              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+          }, 300);
+          return; // On stoppe la fonction ici !
+      }
+
+      // 3. SI PAS DE MOT-CLÉ : ON APPELLE L'IA (En dernier recours)
       const waitingDiv = document.createElement("div");
       waitingDiv.className = "msg msg-nox";
-      waitingDiv.innerText = "🤖 Réflexion cybernétique en cours...";
+      waitingDiv.innerText = "🤖 Réflexion cybernétique...";
       messagesContainer.appendChild(waitingDiv);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
       try {
-          // 3. On envoie la requête à ta fonction Netlify
           const response = await fetch("/.netlify/functions/alerte-nox", {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -2320,26 +2337,23 @@
           });
 
           const data = await response.json();
-          
-          // On retire la bulle de chargement
           messagesContainer.removeChild(waitingDiv);
 
-          // 4. On affiche la VRAIE réponse générée par l'IA !
+          const texteFinal = data.reply || data.message || "Mes circuits s'embrouillent...";
+
           const noxDiv = document.createElement("div");
           noxDiv.className = "msg msg-nox";
-          noxDiv.innerText = data.reply; // <-- Raccordé directement au cerveau de l'IA
+          noxDiv.innerText = texteFinal; 
           messagesContainer.appendChild(noxDiv);
 
       } catch (error) {
-          // Secours si le serveur ou le quota API bloque
-          console.error("Erreur de transmission Nox :", error);
+          console.error("Erreur:", error);
           if (messagesContainer.contains(waitingDiv)) {
               messagesContainer.removeChild(waitingDiv);
           }
-          
           const noxDiv = document.createElement("div");
           noxDiv.className = "msg msg-nox";
-          noxDiv.innerText = "Système surchargé. Mes modules IA sont temporairement hors ligne.";
+          noxDiv.innerText = "Système bridé (1 msg/min). L'IA est fatiguée, repasse plus tard humaine.";
           messagesContainer.appendChild(noxDiv);
       }
 
