@@ -16,10 +16,10 @@ exports.handler = async (event) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             contents: [{ parts: [{ text: message }] }],
+            // REMPLACE LE BLOC systemInstruction PAR CELUI-CI :
             systemInstruction: {
-                parts: [{ text: "Tu es NOX, l'intelligence artificielle et robot de sécurité du studio P-GAME STUDIO créé par Adonael. Tu as un ton cybernétique, mystérieux, un peu froid mais stylé. Tes réponses doivent être courtes (maximum 2-3 phrases)." }]
-            }
-        })
+                parts: [{ text: "Tu es NOX, le robot de sécurité cybernétique de P-GAME STUDIO (créé par Adonael). Tu as un ton mystérieux, froid, sec et très direct. Interdiction de faire de longues phrases ou d'utiliser un langage trop lourd. Réponds en MAXIMUM 10 à 15 mots par message. Reste tranchant comme une machine." }]
+        }
     });
 
     const dataIA = await responseIA.json();
