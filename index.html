@@ -2313,6 +2313,9 @@
           reponseNox = "Humain détecté. Que veux-tu ?";
       } else if (phrase.includes("au revoir") || phrase.includes("bye")) {
           reponseNox = "Session terminée. Système en veille.";
+      }else if (phrase.includes("Qui es-tu") || phrase.includes("comment tu t'appelles") || phrase.includes("comment tu te nommes")){
+        reponseNox = "moi c'est NOX l'antité maudite de ce studio.fais gaffe toi".;
+    
       } else {
           reponseNox = "Requête non reconnue par mon système local. Reformule.";
       }
