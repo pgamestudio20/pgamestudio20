@@ -2315,13 +2315,12 @@
           reponseNox = "Session terminée. Système en veille.";
       }else if (phrase.includes("qui es-tu") || phrase.includes("comment tu t'appelles") || phrase.includes("comment tu te nommes")){
         reponseNox = "moi c'est NOX l'entité maudite de ce studio.fais gaffe toi.";
-      }else if (phrase.includes("bête") || phrase.includes("idiot") || phrase.includes("stupide") || phrase.includes("crétin") || phrase.includes("bete") || phrase.includes("cretin")){
-        reponseNox = "ah ok. je comprends,mais tu sais tu n'est pas bête juste ignorant,t'es plus intelligent qu'une moule c'est déja bien.";
+      } else if (phrase.includes("bête") || phrase.includes("bete") || phrase.includes("idiot") || phrase.includes("stupide") || phrase.includes("crétin") || phrase.includes("cretin")){
+          reponseNox = "Ah ok... Je comprends. Mais tu sais, tu n'es pas bête, juste ignorant. T'es plus intelligent qu'une moule, c'est déjà bien. 🦪💀";
                 
       } else {
-          reponseNox = "Sérieux...désolé mais demande a google moi je suis une entité je bosse que la nuit 😅.";
+          reponseNox = "Sérieux... Désolé mais demande à Google. Moi je suis une entité, je bosse que la nuit 😅.";
       }
-
       // C. Réponse cadencée de NOX
       setTimeout(() => {
           const noxDiv = document.createElement("div");
